@@ -97,8 +97,9 @@ rating: 1
     image: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     availableInventory: 0,
     location:"kaduna",
-    rating: 5
+    rating: 4
 },
 
 ]
 //very demure
+//mcdxk
