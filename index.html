@@ -279,7 +279,7 @@
                 //         )
                 //     }
                 // )
-                fetch("http://localhost:3000/collections/lessons").then(
+                fetch("https://webstore-backend-ba5h.onrender.com/collections/lessons").then(
                     function (response) {
                         response.json().then(
                             function (json) {
@@ -330,7 +330,7 @@ submitCheckOutForm() {
         cart: this.cart.map(itemId => this.getProductById(itemId)) // Include product details in the order
     };
 
-    fetch("http://localhost:3000/orders", {
+    fetch("https://webstore-backend-ba5h.onrender.com/orders", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -372,7 +372,7 @@ updateProductInventory(cart) {
         const product = this.getProductById(parseInt(productId)); // Get the product details by ID
 
         if (product) {
-            fetch(`http://localhost:3000/collections/lessons/${product.id}`, {
+            fetch(`https://webstore-backend-ba5h.onrender.com/collections/lessons/${product.id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

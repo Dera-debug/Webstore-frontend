@@ -4,7 +4,7 @@ let lessons=[
         title: "Mastering Algebra: Foundations and Beyond",
         subject:"Maths",
          price: 100,
-        image: "https://images.unsplash.com/photo-1509869175650-a1d97972541a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        image: "images/algebra.jpg",
         availableInventory: 10,
         location:"jos",
         rating: 2
@@ -14,7 +14,7 @@ let lessons=[
         title: "Exploring the Basics of Chemistry",
         subject:"Sciences",
         price: 350,
-        image: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        image: "images/chemistry.jpg",
         availableInventory: 7,
         location:"kaduna",
         rating: 5
@@ -24,7 +24,7 @@ let lessons=[
     title: "Introduction to World History: Ancient Civilisations",
     subject:"art",
     price: 50,
-    image: "https://images.unsplash.com/photo-1543109740-4bdb38fda756?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "images/history.jpg",
     availableInventory: 10,
     location:"jos",
     rating: 3
@@ -34,8 +34,8 @@ let lessons=[
     title: "Creative Writing Workshop: Crafting Stories",
     subject:"art",
    price: 70,
-    image: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    availableInventory: 3,
+    image: "images/creativeWriting.jpg",
+       availableInventory: 3,
     location:"jos",
     rating: 1
 },
@@ -44,7 +44,7 @@ let lessons=[
     title: "Foundations of Physics: Understanding Motion and Force",
     subject:"maths",
     price: 400,
-    image: "https://images.unsplash.com/photo-1543109740-4bdb38fda756?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "images/physics.jpg",
     availableInventory: 10,
     location:"kaduna",
     rating: 2
@@ -54,7 +54,7 @@ let lessons=[
     title: "Introduction to Programming with JavaScript",
      subject:"IT",
     price: 350,
-    image: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "images/programming.jpg",
     availableInventory: 3,
     location:"jos",
     rating: 4
@@ -64,7 +64,7 @@ id: 1007,
 title: "Visual Arts: Exploring Colour and Composition",
 subject:"art",
 price: 50,
-image: "https://images.unsplash.com/photo-1543109740-4bdb38fda756?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+image: "images/visualArts.jgp",
 availableInventory: 10,
 location:"kaduna",
 rating: 3
@@ -74,7 +74,7 @@ id: 1008,
 title: "Fundamentals of Economics: Supply and Demand",
 subject:"Sciences",
 price: 350,
-image: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+image: "images/economics.jpg",
 availableInventory: 3,
 location:"jos",
 rating: 1
@@ -84,7 +84,7 @@ rating: 1
     title: "Digital Design Essentials: From Idea to Execution",
    subject:"IT",
     price: 50,
-    image: "https://images.unsplash.com/photo-1543109740-4bdb38fda756?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "images/digitalDesign.jpg",
     availableInventory: 0,
     location:"jos",
     rating: 2
@@ -94,7 +94,7 @@ rating: 1
     title: "Geography Essentials: Climate and Ecosystems",
     subject:"Sciences",
     price: 350,
-    image: "https://images.unsplash.com/photo-1621361365424-06f0e1eb5c49?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "images/geography.jpg",
     availableInventory: 0,
     location:"kaduna",
     rating: 4
