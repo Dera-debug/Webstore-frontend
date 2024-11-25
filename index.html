@@ -140,8 +140,6 @@
             </div>
 
 
-
-
             <!-- Checkout Page -->
             <div v-else>
                 <h1 class="text-primary">Welcome to the Checkout page</h1>
@@ -165,42 +163,29 @@
                         <div>
                             <!-- Name Input -->
                             <label for="name" class="form-label"><strong>Name:</strong></label>
-                            <input 
-                                type="text" 
-                                v-model.trim="order.name" 
-                                class="form-control" 
-                                id="name" 
-                                @input="validateName" 
-                                :class="{'is-invalid': !isNameValid && order.name}" 
-                                required
-                            >
+                            <input type="text" v-model.trim="order.name" class="form-control" id="name"
+                                @input="validateName" :class="{'is-invalid': !isNameValid && order.name}" required>
                             <div v-if="!isNameValid && order.name" class="invalid-feedback">
                                 Name can only contain letters.
                             </div>
                         </div>
-                        
+
                         <div>
                             <!-- Phone Input -->
                             <label for="phone" class="form-label"><strong>Phone:</strong></label>
-                            <input 
-                                type="text" 
-                                v-model.trim="order.phone" 
-                                class="form-control" 
-                                id="phone" 
-                                @input="validatePhone" 
-                                :class="{'is-invalid': !isPhoneValid && order.phone}" 
-                                required
-                            >
+                            <input type="text" v-model.trim="order.phone" class="form-control" id="phone"
+                                @input="validatePhone" :class="{'is-invalid': !isPhoneValid && order.phone}" required>
                             <div v-if="!isPhoneValid && order.phone" class="invalid-feedback">
                                 Phone number can only contain numbers.
                             </div>
                         </div>
-                        
 
+                        <!-- option to send lessons as a gift -->
                         <div class="form-check mb-3">
                             <input type="checkbox" id="gift" class="form-check-input" v-model="order.gift">
                             <label class="form-check-label" for="gift">Send as a gift?</label>
                         </div>
+                        <!-- send to home or business address-->
                         <div class="mb-3">
                             <input type="radio" id="home" value="Home" v-model="order.method" class="form-check-input">
                             <label class="form-check-label" for="home">Home</label>
@@ -208,7 +193,8 @@
                                 class="form-check-input ms-3">
                             <label class="form-check-label" for="business">Business</label>
                         </div>
-                         <button type="submit" :disabled="!isNameValid || !isPhoneValid" class="btn btn-primary">
+                        <!-- Place order -->
+                        <button type="submit" :disabled="!isNameValid || !isPhoneValid" class="btn btn-primary">
                             Place Order
                         </button>
                     </form>
@@ -217,7 +203,7 @@
                 <div v-else>
                     <p>Your cart is empty. Please add lessons to proceed.</p>
                 </div>
-<!-- //hdusucis -->
+
             </div>
     </div>
     </main>
@@ -230,7 +216,7 @@
             data: {
                 sitename: "My Lesson App",
                 showProduct: true,
-               
+
                 lessons: [],//lessons,
 
                 cart: [],
@@ -248,11 +234,11 @@
 
                 order: {
                     name: "",
-                    phone:"",
+                    phone: "",
                     gift: "Do not send as a gift",
                     method: "Home",
                     isNameValid: true,
-        isPhoneValid: true,
+                    isPhoneValid: true,
 
                 },
 
@@ -265,15 +251,6 @@
             },
 
             created: function () {
-                // fetch("http://localhost:3000/collections/lessons").then(
-                //     function(response){
-                //         response.text().then(
-                //             function(text) {
-                //                 alert(text);
-                //             }
-                //         )
-                //     }
-                // )
                 fetch("https://webstore-backend-ba5h.onrender.com/collections/lessons").then(
                     function (response) {
                         response.json().then(
@@ -285,7 +262,7 @@
                     }
                 );
             },
-
+            //   Methods for vue app
             methods: {
                 showCheckout() {
                     this.showProduct = !this.showProduct;
@@ -311,93 +288,89 @@
                     return this.lessons.find(product => product.id === id);
                 },
 
-                // submitCheckOutForm() {
-                //     alert("Congratulations, order submitted :)");
-    
 
+                submitCheckOutForm() {
+                    const orderData = {
+                        name: this.order.name,
+                        phone: this.order.phone,
+                        gift: this.order.gift,
+                        method: this.order.method,
+                        cart: this.cart.map(itemId => this.getProductById(itemId)) // Include product details in the order
+                    };
 
-submitCheckOutForm() {
-    const orderData = {
-        name: this.order.name,
-        phone: this.order.phone,
-        gift: this.order.gift,
-        method: this.order.method,
-        cart: this.cart.map(itemId => this.getProductById(itemId)) // Include product details in the order
-    };
+                    fetch("https://webstore-backend-ba5h.onrender.com/orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(orderData)
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                alert("Congratulations, your order has been submitted successfully!");
 
-    fetch("https://webstore-backend-ba5h.onrender.com/orders", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(response => {
-        if (response.ok) {
-            alert("Congratulations, your order has been submitted successfully!");
+                                // Update the available inventory for each product in the order
+                                this.updateProductInventory(orderData.cart);
 
-            // Update the available inventory for each product in the order
-            this.updateProductInventory(orderData.cart);
-
-            this.resetOrderForm();
-        } else {
-            alert("There was an error submitting your order. Please try again.");
-        }
-    })
-    .catch(error => {
-        console.error("Error submitting order:", error);
-        alert("Unable to process your order at the moment.");
-    });
-},
-
-updateProductInventory(cart) {
-    const productQuantities = {};
-
-    // Calculate the total quantity of each product in the cart
-    cart.forEach(product => {
-        if (!productQuantities[product.id]) {
-            productQuantities[product.id] = 0;
-        }
-        productQuantities[product.id]++;
-    });
-
-    // Update the available inventory for each product
-    Object.keys(productQuantities).forEach(productId => {
-        const quantity = productQuantities[productId];
-        const product = this.getProductById(parseInt(productId)); // Get the product details by ID
-
-        if (product) {
-            fetch(`https://webstore-backend-ba5h.onrender.com/collections/lessons/${product.id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
+                                this.resetOrderForm();
+                            } else {
+                                alert("There was an error submitting your order. Please try again.");
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error submitting order:", error);
+                            alert("Unable to process your order at the moment.");
+                        });
                 },
-                body: JSON.stringify({
-                    availableInventory: product.availableInventory - quantity // Subtract the total quantity of the product
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error(`Failed to update inventory for product: ${product.title}`);
-                }
-            })
-            .catch(error => {
-                console.error("Error updating product inventory:", error);
-            });
-        }
-    });
-},
 
+                updateProductInventory(cart) {
+                    const productQuantities = {};
 
-resetOrderForm() {
-    this.order = {
-        name: "",
-        phone: "",
-        gift: "Do not send as a gift",
-        method: "Home"
-    };
-    this.cart = []; // Clear the cart after successful submission
-},
+                    // Calculate the total quantity of each product in the cart
+                    cart.forEach(product => {
+                        if (!productQuantities[product.id]) {
+                            productQuantities[product.id] = 0;
+                        }
+                        productQuantities[product.id]++;
+                    });
+
+                    // Update the available inventory for each product
+                    Object.keys(productQuantities).forEach(productId => {
+                        const quantity = productQuantities[productId];
+                        const product = this.getProductById(parseInt(productId)); // Get the product details by ID
+
+                        if (product) {
+                            fetch(`https://webstore-backend-ba5h.onrender.com/collections/lessons/${product.id}`, {
+                                method: "PUT",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    availableInventory: product.availableInventory - quantity // Subtract the total quantity of the product
+                                })
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        console.error(`Failed to update inventory for product: ${product.title}`);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error updating product inventory:", error);
+                                });
+                        }
+                    });
+                },
+
+               // Clear the cart after successful submission
+                resetOrderForm() {
+                    this.order = {
+                        name: "",
+                        phone: "",
+                        gift: "Do not send as a gift",
+                        method: "Home"
+                    };
+                    this.cart = []; 
+                },
 
 
                 canAddToTheCart(product) {
@@ -416,8 +389,9 @@ resetOrderForm() {
                     return product.availableInventory - this.cartCount(product.id);
                 },
 
+                // Custom logic for applying filters here
                 applyFilters() {
-                    // Custom logic for applying filters can be added here
+                    
                 },
                 canAddToTheCart(product) {
                     return product.availableInventory > this.cartCount(product.id);
@@ -429,30 +403,28 @@ resetOrderForm() {
                     return product.availableInventory - this.cartCount(product.id);
                 },
 
-            
-            validateName() {
-        // Allow only letters (including spaces for multi-word names)
-        const nameRegex = /^[A-Za-z\s]+$/;
-        this.isNameValid = nameRegex.test(this.order.name);
-    },
-    validatePhone() {
-        // Allow only numeric characters
-        const phoneRegex = /^\d+$/;
-        this.isPhoneValid = phoneRegex.test(this.order.phone);
-    },
-},
+              // Validation methods for the checkout form
+                validateName() {
+                    // Allow only letters (including spaces for multi-word names)
+                    const nameRegex = /^[A-Za-z\s]+$/;
+                    this.isNameValid = nameRegex.test(this.order.name);
+                },
+                validatePhone() {
+                    // Allow only numeric characters
+                    const phoneRegex = /^\d+$/;
+                    this.isPhoneValid = phoneRegex.test(this.order.phone);
+                },
+            },
+
+            //computed properties here
             computed: {
                 itemsInTheCart() {
                     return this.cart.length || 0;
                 },
 
-             
-
-
                 filteredlessons() {
                     // Filter lessons based on searchQuery, price, subject, inStock, and location
                     let filtered = this.lessons.filter(product => {
-                        // let matchesSearch = product.title.toLowerCase().includes(this.searchQuery.toLowerCase());
                         let matchesSearch = Object.values(product).some(value =>
                             value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
                         );
@@ -467,15 +439,6 @@ resetOrderForm() {
                         return matchesSearch && matchesPrice && matchesSubject && matchesInStock && matchesLocation;
                     });
 
-                    // Apply sorting based on selected price filter
-                    //     if (this.filters.price === "low") {
-                    //         filtered.sort((a, b) => a.price - b.price);
-                    //     } else if (this.filters.price === "high") {
-                    //         filtered.sort((a, b) => b.price - a.price);
-                    //     }
-
-                    //     return filtered;
-                    // },
 
                     if (this.filters.sortingAttribute) {
                         filtered.sort((a, b) => {
@@ -497,7 +460,7 @@ resetOrderForm() {
                     return filtered;
                 },
 
-
+                // A computed property to get unique subjects from the lessons array
                 uniqueSubjects() {
                     return [...new Set(this.lessons.map(product => product.subject))];
                 }
