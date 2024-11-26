@@ -116,7 +116,10 @@
                             <p class="card-text text-secondary"><strong> Location: </strong>{{ product.location }}</p>
                             <p><strong>Price:</strong> ${{ product.price }}</p>
 
-                            <!-- Add to Cart Button -->
+                             <!-- Inventory Information -->
+                <p><strong>Available Spaces:</strong> {{ itemsLeft(product) }}</p>
+                           
+                <!-- Add to Cart Button -->
                             <button class="btn btn-warning w-100 mt-3" v-if="canAddToTheCart(product)"
                                 v-on:click="addItemToTheCart(product)">
                                 Add to Cart
